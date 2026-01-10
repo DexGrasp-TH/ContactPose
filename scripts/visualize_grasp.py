@@ -20,7 +20,7 @@ def apply_colormap_to_mesh(mesh, sigmoid_a=0.05, invert=False):
 
 
 def apply_semantic_colormap_to_mesh(mesh, semantic_idx, sigmoid_a=0.05, invert=False):
-    colors = np.asarray(mesh.vertex_colors)[:, 0]
+    colors = np.array(mesh.vertex_colors)[:, 0]
     colors = mutils.texture_proc(colors, a=sigmoid_a, invert=invert)
 
     # apply different colormaps based on finger
@@ -37,7 +37,7 @@ def apply_semantic_colormap_to_mesh(mesh, semantic_idx, sigmoid_a=0.05, invert=F
     return mesh
 
 
-def show_contactmap(
+def show_grasp(
     p_num,
     intent,
     object_name,
@@ -57,9 +57,12 @@ def show_contactmap(
     """
     cp = ContactPose(p_num, intent, object_name)
 
-    # read contactmap
-    mesh = o3dio.read_triangle_mesh(cp.contactmap_filename)
+    # read object mesh
+    mesh = o3dio.read_triangle_mesh(cp.object_filename)
+    mesh.scale(0.001, center=(0, 0, 0))  # 转换单位: 从 mm 到 m (缩小 1000 倍)
     mesh.compute_vertex_normals()
+    # add uniform gray color
+    mesh.paint_uniform_color([0.8, 0.8, 0.8])  # RGB in [0, 1]
 
     geoms = []
     # apply simple colormap to the mesh
@@ -80,9 +83,7 @@ def show_contactmap(
 
             # joint locations
             for j in hand_joints:
-                m = o3dg.TriangleMesh.create_sphere(
-                    radius=joint_sphere_radius_mm * 1e-3, resolution=10
-                )
+                m = o3dg.TriangleMesh.create_sphere(radius=joint_sphere_radius_mm * 1e-3, resolution=10)
                 T = np.eye(4)
                 T[:3, 3] = j
                 m.transform(T)
@@ -94,9 +95,7 @@ def show_contactmap(
             for line_idx, (idx0, idx1) in enumerate(line_ids):
                 bone = hand_joints[idx0] - hand_joints[idx1]
                 h = np.linalg.norm(bone)
-                l = o3dg.TriangleMesh.create_cylinder(
-                    radius=bone_cylinder_radius_mm * 1e-3, height=h, resolution=10
-                )
+                l = o3dg.TriangleMesh.create_cylinder(radius=bone_cylinder_radius_mm * 1e-3, height=h, resolution=10)
                 T = np.eye(4)
                 T[2, 3] = -h / 2.0
                 l.transform(T)
@@ -150,27 +149,10 @@ def show_contactmap(
 if __name__ == "__main__":
     import sys
 
-    parser = mutils.default_argparse()
-    parser.add_argument(
-        "--mode",
-        help="Contact Map mode",
-        default="simple_hands",
-        choices=(
-            "simple",
-            "simple_mano",
-            "simple_hands",
-            "semantic_hands_fingers",
-            "semantic_hands_phalanges",
-        ),
-    )
-    parser.add_argument("--show_axes", action="store_true", help="Show coordinate axes")
-    args = parser.parse_args()
-    if args.object_name == "hands":
-        print("hands do not have a contact map")
-        sys.exit(0)
-    elif args.object_name == "palm_print":
-        print("Forcing mode to simple since palm_print does not have hand pose")
-        args.mode = "simple"
-    show_contactmap(
-        args.p_num, args.intent, args.object_name, args.mode, show_axes=args.show_axes
+    show_grasp(
+        p_num=1,
+        intent="use",
+        object_name="apple",
+        mode="simple_hands",
+        show_axes=True,
     )

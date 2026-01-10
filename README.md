@@ -1,5 +1,33 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/contactpose-a-dataset-of-grasps-with-object/grasp-contact-prediction-on-contactpose)](https://paperswithcode.com/sota/grasp-contact-prediction-on-contactpose?p=contactpose-a-dataset-of-grasps-with-object)
 
+## Mingrui Development
+
+### Download
+
+1. Download dataset from [Google Drive link](https://drive.google.com/file/d/1paUAxXgHp6wDFBFw9MI1mxGElEl2KPew/view?usp=share_link). Note that this link does not contain all contact maps. Contact maps are available at IEEE DataPort.
+2. Unzip files using `scripts/unzip_data.py`.
+3. Manually re-arange the structure of files.
+
+### Installation
+
+Manually create the conda env according to the `environment.txt`.
+
+### Usage
+
+Visualize a grasp:
+```bash
+python scripts/visualize_grasp.py
+```
+
+Analysis the grasp distribution:
+```bash
+python scripts/data_analysis/stat_grasp_distribution.py
+```
+
+
+
+---
+
 **NOTE**: We are aware that the original Dropbox data download links are not valid anymore. Most of the data is now available in IEEE DataPort. This is being tracked in [Issue 27](https://github.com/facebookresearch/ContactPose/issues/27).
 
 For users that do not have access to IEEE DataPort, here is a [Google Drive link](https://drive.google.com/file/d/1paUAxXgHp6wDFBFw9MI1mxGElEl2KPew/view?usp=share_link) to sample data.
