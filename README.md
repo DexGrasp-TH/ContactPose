@@ -1,30 +1,5 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/contactpose-a-dataset-of-grasps-with-object/grasp-contact-prediction-on-contactpose)](https://paperswithcode.com/sota/grasp-contact-prediction-on-contactpose?p=contactpose-a-dataset-of-grasps-with-object)
 
-## Mingrui Development
-
-### Download
-
-1. Download dataset from [Google Drive link](https://drive.google.com/file/d/1paUAxXgHp6wDFBFw9MI1mxGElEl2KPew/view?usp=share_link). Note that this link does not contain all contact maps. Contact maps are available at IEEE DataPort.
-2. Unzip files using `scripts/unzip_data.py`.
-3. Manually re-arange the structure of files.
-
-### Installation
-
-Manually create the conda env according to the `environment.txt`.
-
-### Usage
-
-Visualize a grasp:
-```bash
-python scripts/visualize_grasp.py
-```
-
-Analysis the grasp distribution:
-```bash
-python scripts/data_analysis/stat_grasp_distribution.py
-```
-
-
 
 ---
 
@@ -98,3 +73,39 @@ If you got that data before the correction date, please re-download it.
 - :heavy_check_mark: **new** Release [ROS code](https://github.com/samarth-robo/contactpose_ros_utils) used for recording the dataset
 - :heavy_check_mark: [MANO and object mesh rendering](docs/rendering.md)
 - :black_square_button: Documentation using [Read the Docs](https://readthedocs.org)
+
+
+## Mingrui Development
+
+### Download
+
+1. Download dataset from [Google Drive link](https://drive.google.com/file/d/1paUAxXgHp6wDFBFw9MI1mxGElEl2KPew/view?usp=share_link). Note that this link does not contain all contact maps. Contact maps are available at IEEE DataPort.
+2. Unzip files using `scripts/unzip_data.py`.
+3. Manually re-arange the structure of files.
+
+### Installation
+
+Manually create the conda env according to the `environment.txt`.
+
+```bash
+pip install trimesh
+```
+
+### Usage
+
+Visualize a grasp:
+```bash
+python scripts/visualize_grasp.py
+```
+
+Analysis the grasp distribution:
+```bash
+python scripts/data_analysis/stat_grasp_distribution.py
+```
+
+Re-format the save the grasp dataset:
+```bash
+python scripts/reformat_grasps.py
+```
+
+

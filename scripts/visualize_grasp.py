@@ -150,9 +150,9 @@ if __name__ == "__main__":
     import sys
 
     show_grasp(
-        p_num=1,
+        p_num=23,
         intent="use",
         object_name="apple",
-        mode="simple_hands",
+        mode="simple_mano",
         show_axes=True,
     )
